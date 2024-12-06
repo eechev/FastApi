@@ -1,6 +1,7 @@
 import databases
 import sqlalchemy
-from config import config
+
+from storeapi.config import config
 
 metadata = sqlalchemy.MetaData()
 
@@ -11,7 +12,7 @@ post_table = sqlalchemy.Table(
     sqlalchemy.Column("body", sqlalchemy.String),
 )
 
-column_table = sqlalchemy.Table(
+comment_table = sqlalchemy.Table(
     "comments",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),

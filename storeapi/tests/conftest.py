@@ -2,14 +2,17 @@
 This is a fixture file
 """
 
+import os
 from typing import AsyncGenerator, Generator
 
 import pytest
 from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient
 
+os.environ["ENV_STATE"] = "test"
+
+from storeapi.database import database
 from storeapi.main import app
-from storeapi.routers.post import comment_table, post_table
 
 
 @pytest.fixture(scope="session")
@@ -50,9 +53,9 @@ async def db() -> AsyncGenerator:
     `yield` statement will be run after each test.
     """
 
-    post_table.clear()
-    comment_table.clear()
+    await database.connect()
     yield
+    await database.disconnect()
 
 
 @pytest.fixture()

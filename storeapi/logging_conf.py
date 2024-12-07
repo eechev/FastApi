@@ -22,10 +22,11 @@ class EmailObfuscationFilter(logging.Filter):
 
 
 def configure_logging() -> None:
+    handlers = ["default", "rotating_file"]
+    seq_server_url = None
     if config.SEQ_SERVER_URL:
         seq_server_url = config.SEQ_SERVER_URL
-    else:
-        raise ValueError("SEQ_SERVER_URL is not set in configuration")
+        handlers.append("seq")
 
     dictConfig(
         {
@@ -81,20 +82,20 @@ def configure_logging() -> None:
             },
             "loggers": {
                 "storeapi": {
-                    "handlers": ["default", "rotating_file", "seq"],
+                    "handlers": handlers,
                     "level": "DEBUG" if isinstance(config, DevConfig) else "INFO",
                     "propagate": False,  # this will prevent the logger from propagating to the root logger
                 },
                 "uvicorn": {
-                    "handlers": ["default", "rotating_file", "seq"],
+                    "handlers": handlers,
                     "level": "INFO",
                 },
                 "databases": {
-                    "handlers": ["default", "rotating_file", "seq"],
+                    "handlers": handlers,
                     "level": "WARNING",
                 },
                 "aiosqlite": {
-                    "handlers": ["default", "rotating_file", "seq"],
+                    "handlers": handlers,
                     "level": "WARNING",
                 },
             },

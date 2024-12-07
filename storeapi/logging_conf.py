@@ -66,20 +66,30 @@ def configure_logging() -> None:
                     "encoding": "utf-8",
                     "filters": ["correlation_id", "email_obfuscation"],
                 },
+                "seq": {
+                    "class": "seqlog.SeqLogHandler",
+                    "level": "DEBUG",
+                    "server_url": "http://localhost:5341",
+                    "formatter": "file",
+                    "filters": ["correlation_id", "email_obfuscation"],
+                },
             },
             "loggers": {
                 "storeapi": {
-                    "handlers": ["default", "rotating_file"],
+                    "handlers": ["default", "rotating_file", "seq"],
                     "level": "DEBUG" if isinstance(config, DevConfig) else "INFO",
                     "propagate": False,  # this will prevent the logger from propagating to the root logger
                 },
-                "uvicorn": {"handlers": ["default", "rotating_file"], "level": "INFO"},
+                "uvicorn": {
+                    "handlers": ["default", "rotating_file", "seq"],
+                    "level": "INFO",
+                },
                 "databases": {
-                    "handlers": ["default", "rotating_file"],
+                    "handlers": ["default", "rotating_file", "seq"],
                     "level": "WARNING",
                 },
                 "aiosqlite": {
-                    "handlers": ["default", "rotating_file"],
+                    "handlers": ["default", "rotating_file", "seq"],
                     "level": "WARNING",
                 },
             },

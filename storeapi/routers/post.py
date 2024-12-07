@@ -22,8 +22,9 @@ async def find_post(post_id: int):
     logger.debug(query)
     post = await database.fetch_one(query)
     if not post:
-        logger.error("Post not found with id {}".format(post_id))
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Post not found")
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND, "Post with id {} not found".format(post_id)
+        )
     return post
 
 

@@ -147,3 +147,55 @@ WHERE comments.post_id = :post_id_1
 2024-12-07T12:18:47.890Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
 2024-12-07T12:18:47.892Z | INFO     | uvicorn.error:76 - Application shutdown complete.
 2024-12-07T12:18:47.893Z | INFO     | uvicorn.error:92 - Finished server process [25704]
+2024-12-07T15:10:37.871Z | INFO     | storeapi.main:17 - Starting up...
+2024-12-07T15:10:37.876Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T15:10:43.997Z | INFO     | storeapi.routers.post:43 - Getting all posts
+2024-12-07T15:10:43.998Z | DEBUG    | storeapi.routers.post:45 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T15:10:44.004Z | INFO     | uvicorn.access:476 - 127.0.0.1:50677 - "GET /post HTTP/1.1" 200
+2024-12-07T15:10:51.555Z | INFO     | storeapi.routers.post:62 - Getting comments for post 1
+2024-12-07T15:10:51.557Z | DEBUG    | storeapi.routers.post:64 - SELECT comments.id, comments.body, comments.post_id 
+FROM comments 
+WHERE comments.post_id = :post_id_1
+2024-12-07T15:10:51.562Z | INFO     | uvicorn.access:476 - 127.0.0.1:50780 - "GET /post/1/comment HTTP/1.1" 200
+2024-12-07T15:10:55.640Z | INFO     | storeapi.routers.post:70 - Getting post with comments for post 1
+2024-12-07T15:10:55.641Z | INFO     | storeapi.routers.post:20 - Finding post with id 1
+2024-12-07T15:10:55.642Z | DEBUG    | storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T15:10:55.646Z | INFO     | storeapi.routers.post:62 - Getting comments for post 1
+2024-12-07T15:10:55.648Z | DEBUG    | storeapi.routers.post:64 - SELECT comments.id, comments.body, comments.post_id 
+FROM comments 
+WHERE comments.post_id = :post_id_1
+2024-12-07T15:10:55.654Z | INFO     | uvicorn.access:476 - 127.0.0.1:50780 - "GET /post/1 HTTP/1.1" 200
+2024-12-07T15:11:02.659Z | INFO     | storeapi.routers.post:70 - Getting post with comments for post 0
+2024-12-07T15:11:02.661Z | INFO     | storeapi.routers.post:20 - Finding post with id 0
+2024-12-07T15:11:02.662Z | DEBUG    | storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T15:11:02.666Z | ERROR    | storeapi.main:30 - HTTP Exception: 404 Post with id 0 not found
+2024-12-07T15:11:02.667Z | INFO     | uvicorn.access:476 - 127.0.0.1:50921 - "GET /post/0 HTTP/1.1" 404
+2024-12-07T15:12:57.470Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T15:12:57.581Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T15:12:57.590Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T15:12:57.597Z | INFO     | uvicorn.error:92 - Finished server process [30012]
+2024-12-07T15:24:16.110Z | INFO     | [-] storeapi.main:18 - Starting up...
+2024-12-07T15:24:16.114Z | INFO     | [-] uvicorn.error:62 - Application startup complete.
+2024-12-07T15:24:27.642Z | INFO     | [414645dc] storeapi.routers.post:43 - Getting all posts
+2024-12-07T15:24:27.643Z | DEBUG    | [414645dc] storeapi.routers.post:45 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T15:24:27.649Z | INFO     | [414645dc] uvicorn.access:476 - 127.0.0.1:61095 - "GET /post HTTP/1.1" 200
+2024-12-07T15:24:43.260Z | INFO     | [af960cd2] storeapi.routers.post:51 - Creating comment for post id 1
+2024-12-07T15:24:43.262Z | INFO     | [af960cd2] storeapi.routers.post:20 - Finding post with id 1
+2024-12-07T15:24:43.264Z | DEBUG    | [af960cd2] storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T15:24:43.270Z | DEBUG    | [af960cd2] storeapi.routers.post:55 - INSERT INTO comments (body, post_id) VALUES (:body, :post_id)
+2024-12-07T15:24:43.316Z | INFO     | [af960cd2] uvicorn.access:476 - 127.0.0.1:61296 - "POST /comment HTTP/1.1" 201
+2024-12-07T15:25:10.711Z | INFO     | [b2ca94ef] storeapi.routers.post:70 - Getting post with comments for post 0
+2024-12-07T15:25:10.712Z | INFO     | [b2ca94ef] storeapi.routers.post:20 - Finding post with id 0
+2024-12-07T15:25:10.714Z | DEBUG    | [b2ca94ef] storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T15:25:10.717Z | ERROR    | [b2ca94ef] storeapi.main:31 - HTTP Exception: 404 Post with id 0 not found
+2024-12-07T15:25:10.720Z | INFO     | [b2ca94ef] uvicorn.access:476 - 127.0.0.1:61637 - "GET /post/0 HTTP/1.1" 404

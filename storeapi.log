@@ -1,0 +1,149 @@
+2024-12-07T11:59:45.769Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T11:59:45.773Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T11:59:45.775Z | INFO     | uvicorn.error:214 - Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2024-12-07T12:01:49.501Z | DEBUG    | storeapi.routers.post:38 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:01:49.544Z | INFO     | uvicorn.access:476 - 127.0.0.1:63639 - "GET /post HTTP/1.1" 200
+2024-12-07T12:05:16.631Z | DEBUG    | storeapi.routers.post:38 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:05:16.637Z | INFO     | uvicorn.access:476 - 127.0.0.1:50986 - "GET /post HTTP/1.1" 200
+2024-12-07T12:05:36.578Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:05:36.733Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:05:36.735Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:05:36.736Z | INFO     | uvicorn.error:92 - Finished server process [30664]
+2024-12-07T12:05:46.912Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:05:46.917Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:05:52.765Z | DEBUG    | storeapi.routers.post:38 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:05:52.769Z | INFO     | uvicorn.access:476 - 127.0.0.1:51463 - "GET /post HTTP/1.1" 200
+2024-12-07T12:06:41.097Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:06:41.205Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:06:41.214Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:06:41.219Z | INFO     | uvicorn.error:92 - Finished server process [11464]
+2024-12-07T12:06:42.220Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:06:42.225Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:06:46.296Z | INFO     | storeapi.routers.post:37 - Getting all posts
+2024-12-07T12:06:46.297Z | DEBUG    | storeapi.routers.post:39 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:06:46.301Z | INFO     | uvicorn.access:476 - 127.0.0.1:52535 - "GET /post HTTP/1.1" 200
+2024-12-07T12:09:01.068Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:09:01.178Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:09:01.180Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:09:01.181Z | INFO     | uvicorn.error:92 - Finished server process [18568]
+2024-12-07T12:09:02.266Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:09:02.270Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:10:45.806Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:10:45.915Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:10:45.918Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:10:45.920Z | INFO     | uvicorn.error:92 - Finished server process [17104]
+2024-12-07T12:10:46.927Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:10:46.938Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:11:45.503Z | INFO     | storeapi.routers.post:38 - Getting all posts
+2024-12-07T12:11:45.507Z | DEBUG    | storeapi.routers.post:40 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:11:45.516Z | INFO     | uvicorn.access:476 - 127.0.0.1:56842 - "GET /post HTTP/1.1" 200
+2024-12-07T12:13:47.128Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:13:47.235Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:13:47.237Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:13:47.239Z | INFO     | uvicorn.error:92 - Finished server process [25116]
+2024-12-07T12:13:48.231Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:13:48.235Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:13:48.260Z | ERROR    | uvicorn.error:134 - Traceback (most recent call last):
+  File "d:\Users\echev\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Users\echev\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\Users\echev\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "d:\Users\echev\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 123, in run
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "d:\Projects\FastApi\.venv\Lib\site-packages\starlette\routing.py", line 700, in lifespan
+    await receive()
+  File "d:\Projects\FastApi\.venv\Lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\Users\echev\AppData\Local\Programs\Python\Python312\Lib\asyncio\queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2024-12-07T12:13:49.221Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:13:49.225Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:14:03.949Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:14:04.058Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:14:04.066Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:14:04.073Z | INFO     | uvicorn.error:92 - Finished server process [18792]
+2024-12-07T12:14:07.846Z | INFO     | storeapi.main:16 - Starting up...
+2024-12-07T12:14:07.851Z | INFO     | uvicorn.error:62 - Application startup complete.
+2024-12-07T12:14:13.037Z | INFO     | storeapi.routers.post:42 - Getting all posts
+2024-12-07T12:14:13.039Z | DEBUG    | storeapi.routers.post:44 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:14:13.044Z | INFO     | uvicorn.access:476 - 127.0.0.1:59717 - "GET /post HTTP/1.1" 200
+2024-12-07T12:14:27.905Z | INFO     | storeapi.routers.post:32 - Creating post
+2024-12-07T12:14:27.907Z | DEBUG    | storeapi.routers.post:35 - INSERT INTO posts (body) VALUES (:body)
+2024-12-07T12:14:27.924Z | INFO     | uvicorn.access:476 - 127.0.0.1:59915 - "POST /post HTTP/1.1" 201
+2024-12-07T12:14:50.083Z | INFO     | storeapi.routers.post:50 - Creating comment for post id 0
+2024-12-07T12:14:50.087Z | INFO     | storeapi.routers.post:20 - Finding post with id 0
+2024-12-07T12:14:50.090Z | DEBUG    | storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T12:14:50.095Z | ERROR    | storeapi.routers.post:25 - Post not found with id 0
+2024-12-07T12:14:50.097Z | INFO     | uvicorn.access:476 - 127.0.0.1:60190 - "POST /comment HTTP/1.1" 404
+2024-12-07T12:14:59.765Z | INFO     | storeapi.routers.post:42 - Getting all posts
+2024-12-07T12:14:59.767Z | DEBUG    | storeapi.routers.post:44 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:14:59.771Z | INFO     | uvicorn.access:476 - 127.0.0.1:60316 - "GET /post HTTP/1.1" 200
+2024-12-07T12:15:13.527Z | INFO     | storeapi.routers.post:42 - Getting all posts
+2024-12-07T12:15:13.528Z | DEBUG    | storeapi.routers.post:44 - SELECT posts.id, posts.body 
+FROM posts
+2024-12-07T12:15:13.532Z | INFO     | uvicorn.access:476 - 127.0.0.1:60488 - "GET /post HTTP/1.1" 200
+2024-12-07T12:15:26.163Z | INFO     | storeapi.routers.post:50 - Creating comment for post id 1
+2024-12-07T12:15:26.164Z | INFO     | storeapi.routers.post:20 - Finding post with id 1
+2024-12-07T12:15:26.166Z | DEBUG    | storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T12:15:26.170Z | DEBUG    | storeapi.routers.post:54 - INSERT INTO comments (body, post_id) VALUES (:body, :post_id)
+2024-12-07T12:15:26.215Z | INFO     | uvicorn.access:476 - 127.0.0.1:65531 - "POST /comment HTTP/1.1" 201
+2024-12-07T12:15:34.924Z | INFO     | storeapi.routers.post:61 - Getting comments for post 0
+2024-12-07T12:15:34.925Z | DEBUG    | storeapi.routers.post:63 - SELECT comments.id, comments.body, comments.post_id 
+FROM comments 
+WHERE comments.post_id = :post_id_1
+2024-12-07T12:15:34.929Z | INFO     | uvicorn.access:476 - 127.0.0.1:49260 - "GET /post/0/comment HTTP/1.1" 200
+2024-12-07T12:15:43.665Z | INFO     | storeapi.routers.post:61 - Getting comments for post 1
+2024-12-07T12:15:43.667Z | DEBUG    | storeapi.routers.post:63 - SELECT comments.id, comments.body, comments.post_id 
+FROM comments 
+WHERE comments.post_id = :post_id_1
+2024-12-07T12:15:43.672Z | INFO     | uvicorn.access:476 - 127.0.0.1:49371 - "GET /post/1/comment HTTP/1.1" 200
+2024-12-07T12:15:51.258Z | INFO     | storeapi.routers.post:69 - Getting post with comments for post 0
+2024-12-07T12:15:51.259Z | INFO     | storeapi.routers.post:20 - Finding post with id 0
+2024-12-07T12:15:51.260Z | DEBUG    | storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T12:15:51.264Z | ERROR    | storeapi.routers.post:25 - Post not found with id 0
+2024-12-07T12:15:51.265Z | INFO     | uvicorn.access:476 - 127.0.0.1:49726 - "GET /post/0 HTTP/1.1" 404
+2024-12-07T12:15:59.210Z | INFO     | storeapi.routers.post:69 - Getting post with comments for post 1
+2024-12-07T12:15:59.211Z | INFO     | storeapi.routers.post:20 - Finding post with id 1
+2024-12-07T12:15:59.213Z | DEBUG    | storeapi.routers.post:22 - SELECT posts.id, posts.body 
+FROM posts 
+WHERE posts.id = :id_1
+2024-12-07T12:15:59.216Z | INFO     | storeapi.routers.post:61 - Getting comments for post 1
+2024-12-07T12:15:59.218Z | DEBUG    | storeapi.routers.post:63 - SELECT comments.id, comments.body, comments.post_id 
+FROM comments 
+WHERE comments.post_id = :post_id_1
+2024-12-07T12:15:59.222Z | INFO     | uvicorn.access:476 - 127.0.0.1:50386 - "GET /post/1 HTTP/1.1" 200
+2024-12-07T12:18:47.781Z | INFO     | uvicorn.error:262 - Shutting down
+2024-12-07T12:18:47.890Z | INFO     | uvicorn.error:67 - Waiting for application shutdown.
+2024-12-07T12:18:47.892Z | INFO     | uvicorn.error:76 - Application shutdown complete.
+2024-12-07T12:18:47.893Z | INFO     | uvicorn.error:92 - Finished server process [25704]

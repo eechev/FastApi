@@ -22,6 +22,11 @@ class EmailObfuscationFilter(logging.Filter):
 
 
 def configure_logging() -> None:
+    if config.SEQ_SERVER_URL:
+        seq_server_url = config.SEQ_SERVER_URL
+    else:
+        raise ValueError("SEQ_SERVER_URL is not set in configuration")
+
     dictConfig(
         {
             "version": 1,
@@ -69,7 +74,7 @@ def configure_logging() -> None:
                 "seq": {
                     "class": "seqlog.SeqLogHandler",
                     "level": "DEBUG",
-                    "server_url": "http://localhost:5341",
+                    "server_url": seq_server_url,
                     "formatter": "file",
                     "filters": ["correlation_id", "email_obfuscation"],
                 },

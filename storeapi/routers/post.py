@@ -3,10 +3,12 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from storeapi.database import comment_table, database, post_table
+from storeapi.database import comment_table, database, like_table, post_table
 from storeapi.models.post import (
     Comment,
     CommentIn,
+    PostLike,
+    PostLikeIn,
     UserPost,
     UserPostIn,
     UserPostWithComments,
@@ -79,3 +81,20 @@ async def get_post_with_comments(post_id: int):
         "post": await find_post(post_id),
         "comments": await get_post_comments(post_id),
     }
+
+
+@router.post("/like", response_model=PostLike, status_code=status.HTTP_201_CREATED)
+async def post_like(
+    like: PostLikeIn, current_user: Annotated[User, Depends(get_current_user)]
+):
+    logger.info("Creating like for post id {}".format(like.post_id))
+    post = await find_post(like.post_id)
+    if not post:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND, "Post with id {} not found".format(like.post_id)
+        )
+    data = {**like.model_dump(), "user_id": current_user.id}
+    query = like_table.insert().values(data)
+    logger.debug(query)
+    last_record_id = await database.execute(query)
+    return {**data, "id": last_record_id}

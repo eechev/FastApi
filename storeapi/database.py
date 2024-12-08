@@ -32,6 +32,15 @@ user_table = sqlalchemy.Table(
     sqlalchemy.Column("password", sqlalchemy.String),
 )
 
+like_table = sqlalchemy.Table(
+    "likes",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column(
+        "post_id", sqlalchemy.Integer, sqlalchemy.ForeignKey("posts.id"), nullable=False
+    ),
+    sqlalchemy.Column("user_id", sqlalchemy.ForeignKey("users.id"), nullable=False),
+)
 
 if config.DATABASE_URL is None:
     raise ValueError("DATABASE_URL is not set")

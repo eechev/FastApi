@@ -8,3 +8,6 @@ rich
 asgi-correlation-id
 python-json-logger
 seqlog
+python-jose
+python-multipart
+passlib[bcrypt]

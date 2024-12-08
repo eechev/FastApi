@@ -11,7 +11,7 @@ from httpx import ASGITransport, AsyncClient
 
 os.environ["ENV_STATE"] = "test"
 
-from storeapi.database import database
+from storeapi.database import database, user_table
 from storeapi.main import app
 
 
@@ -64,3 +64,13 @@ async def async_client(client: TestClient) -> AsyncGenerator:
         base_url=client.base_url, transport=ASGITransport(app)
     ) as ac:
         yield ac
+
+
+@pytest.fixture()
+async def registered_user(async_client: AsyncClient) -> dict:
+    user_details = {"email": "test@example.com", "password": "password1234"}
+    await async_client.post("/register", json=user_details)
+    query = user_table.select().where(user_table.c.email == user_details["email"])
+    user = await database.fetch_one(query)
+    user_details["id"] = user.id  # type: ignore
+    return user_details

@@ -1,6 +1,7 @@
 import logging
+from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from storeapi.database import comment_table, database, post_table
 from storeapi.models.post import (
@@ -10,6 +11,8 @@ from storeapi.models.post import (
     UserPostIn,
     UserPostWithComments,
 )
+from storeapi.models.user import User
+from storeapi.security import get_current_user
 
 router = APIRouter()
 
@@ -29,7 +32,9 @@ async def find_post(post_id: int):
 
 
 @router.post("/post", response_model=UserPost, status_code=status.HTTP_201_CREATED)
-async def create_post(post: UserPostIn):
+async def create_post(
+    post: UserPostIn, current_user: Annotated[User, Depends(get_current_user)]
+):
     logger.info("Creating post")
     data = post.model_dump()
     query = post_table.insert().values(data)
@@ -47,7 +52,9 @@ async def get_all_posts():
 
 
 @router.post("/comment", response_model=Comment, status_code=status.HTTP_201_CREATED)
-async def create_comment(comment: CommentIn):
+async def create_comment(
+    comment: CommentIn, current_user: Annotated[User, Depends(get_current_user)]
+):
     logger.info("Creating comment for post id {}".format(comment.post_id))
     await find_post(comment.post_id)
     data = comment.model_dump()

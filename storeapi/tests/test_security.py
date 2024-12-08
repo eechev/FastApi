@@ -3,6 +3,12 @@ import pytest
 from storeapi import security
 
 
+def test_password_hashing():
+    password = "password1234"
+    hashed_password = security.get_password_hash(password)
+    assert security.verify_password(password, hashed_password)
+
+
 @pytest.mark.anyio
 async def test_get_user(registered_user: dict):
     user = await security.get_user(registered_user["email"])

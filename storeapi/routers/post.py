@@ -1,6 +1,8 @@
 import logging
+from enum import Enum
 from typing import Annotated
 
+import sqlalchemy
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from storeapi.database import comment_table, database, like_table, post_table
@@ -12,6 +14,7 @@ from storeapi.models.post import (
     UserPost,
     UserPostIn,
     UserPostWithComments,
+    UserPostWithLikes,
 )
 from storeapi.models.user import User
 from storeapi.security import get_current_user
@@ -19,6 +22,19 @@ from storeapi.security import get_current_user
 router = APIRouter()
 
 logger = logging.getLogger(__name__)
+
+
+class PostSorting(str, Enum):
+    new = "new"
+    old = "old"
+    most_likes = "most_likes"
+
+
+select_post_and_likes = (
+    sqlalchemy.select(post_table, sqlalchemy.func.count(like_table.c.id).label("likes"))
+    .select_from(post_table.outerjoin(like_table))
+    .group_by(post_table.c.id)
+)
 
 
 async def find_post(post_id: int):
@@ -45,10 +61,18 @@ async def create_post(
     return {**data, "id": last_record_id}
 
 
-@router.get("/post", response_model=list[UserPost])
-async def get_all_posts():
+@router.get("/post", response_model=list[UserPostWithLikes])
+async def get_all_posts(sorting: PostSorting = PostSorting.new):
     logger.info("Getting all posts")
-    query = post_table.select()
+
+    match sorting:
+        case PostSorting.new:
+            query = select_post_and_likes.order_by(post_table.c.id.desc())
+        case PostSorting.old:
+            query = select_post_and_likes.order_by(post_table.c.id.asc())
+        case PostSorting.most_likes:
+            query = select_post_and_likes.order_by(sqlalchemy.desc("likes"))
+
     logger.debug(query)
     return await database.fetch_all(query)
 
@@ -77,8 +101,19 @@ async def get_post_comments(post_id: int):
 @router.get("/post/{post_id}", response_model=UserPostWithComments)
 async def get_post_with_comments(post_id: int):
     logger.info("Getting post with comments for post {}".format(post_id))
+
+    query = select_post_and_likes.where(post_table.c.id == post_id)
+    logger.debug(query)
+    post = await database.fetch_one(query)
+
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post with id {} not found".format(post_id),
+        )
+
     return {
-        "post": await find_post(post_id),
+        "post": post,
         "comments": await get_post_comments(post_id),
     }
 

@@ -1,7 +1,7 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status, BackgroundTasks
 from fastapi.security import OAuth2PasswordRequestForm
 
 from storeapi import tasks
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register(user: UserIn, request: Request):
+async def register(user: UserIn, background_tasks: BackgroundTasks, request: Request):
     logger.info("Registering user", extra={"email": user.email})
     if await get_user(user.email):
         raise HTTPException(
@@ -34,7 +34,8 @@ async def register(user: UserIn, request: Request):
     query = user_table.insert().values(email=user.email, password=hashed_password)
     logger.debug(query)
     await database.execute(query)
-    await tasks.send_user_registration_email(
+    background_tasks.add_task(
+        tasks.send_user_registration_email,
         user.email,
         confirmation_url=str(
             request.url_for(

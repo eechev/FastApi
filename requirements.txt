@@ -11,3 +11,4 @@ seqlog
 python-jose
 python-multipart
 passlib[bcrypt]
+httpx

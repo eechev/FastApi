@@ -7,9 +7,11 @@ from typing import AsyncGenerator, Generator
 
 import pytest
 from fastapi.testclient import TestClient
-from httpx import ASGITransport, AsyncClient
+from httpx import ASGITransport, AsyncClient, Response
 
 os.environ["ENV_STATE"] = "test"
+
+from unittest.mock import AsyncMock, Mock
 
 from storeapi.database import database, user_table
 from storeapi.main import app
@@ -101,3 +103,17 @@ async def logged_in_token(async_client: AsyncClient, confirmed_user: dict) -> st
         },
     )
     return response.json()["access_token"]
+
+
+@pytest.fixture(autouse=True)
+def mock_httpx_client(mocker):
+    mocked_client = mocker.patch("storeapi.tasks.httpx.AsyncClient")
+    mocked_async_client = Mock()
+    response = Response(
+        status_code=200,
+        content="",
+    )
+    response.raise_for_status = Mock()
+    mocked_async_client.post = AsyncMock(return_value=response)
+    mocked_client.return_value.__aenter__.return_value = mocked_async_client
+    return mocked_async_client

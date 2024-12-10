@@ -15,11 +15,19 @@ async def created_comment(
     )
 
 
+@pytest.fixture()
+def mock_generate_cute_creature_api(mocker):
+    return mocker.patch(
+        "storeapi.tasks._generate_cute_creature_api",
+        return_value={"output_url": "http://example.com/cute-creature.jpg"},
+    )
+
+
 @pytest.mark.anyio
 async def test_create_post(
     async_client: AsyncClient, confirmed_user: dict, logged_in_token: str
 ):
-    print("testin create post")
+    print("testing create post")
     body = "Test Post"
 
     response = await async_client.post(
@@ -34,6 +42,32 @@ async def test_create_post(
         "user_id": confirmed_user["id"],
         "image_url": None,
     }.items() <= response.json().items()
+
+
+@pytest.mark.anyio
+async def test_create_post_with_prompt(
+    async_client: AsyncClient,
+    confirmed_user: dict,
+    logged_in_token: str,
+    mock_generate_cute_creature_api,
+):
+    print("testing create post with prompt")
+    body = "Test Post"
+
+    response = await async_client.post(
+        "/post?prompt=cat",
+        json={"body": body, "header": "header"},
+        headers={"Authorization": f"Bearer {logged_in_token}"},
+    )
+    assert response.status_code == status.HTTP_201_CREATED
+    assert {
+        "id": 1,
+        "body": body,
+        "user_id": confirmed_user["id"],
+        "image_url": None,
+    }.items() <= response.json().items()
+
+    mock_generate_cute_creature_api.assert_called()
 
 
 @pytest.mark.anyio

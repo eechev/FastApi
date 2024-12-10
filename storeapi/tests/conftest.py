@@ -9,6 +9,8 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient, Response
 
+from storeapi.tests.helpers import create_post
+
 os.environ["ENV_STATE"] = "test"
 
 from unittest.mock import AsyncMock, Mock
@@ -59,7 +61,7 @@ async def db() -> AsyncGenerator:
     # Execute PRAGMA statements to adjust SQLite settings
     # await database.execute("PRAGMA busy_timeout = 30000")
     # Wait up to 30 seconds
-    yield
+    yield database
     await database.disconnect()
 
 
@@ -117,3 +119,8 @@ def mock_httpx_client(mocker):
     mocked_async_client.post = AsyncMock(return_value=response)
     mocked_client.return_value.__aenter__.return_value = mocked_async_client
     return mocked_async_client
+
+
+@pytest.fixture()
+async def created_post(async_client: AsyncClient, logged_in_token: str):
+    return await create_post("Test Post", logged_in_token, async_client)

@@ -24,14 +24,6 @@ comment_table = sqlalchemy.Table(
     sqlalchemy.Column("user_id", sqlalchemy.ForeignKey("users.id"), nullable=False),
 )
 
-user_table = sqlalchemy.Table(
-    "users",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("email", sqlalchemy.String, unique=True),
-    sqlalchemy.Column("password", sqlalchemy.String),
-)
-
 like_table = sqlalchemy.Table(
     "likes",
     metadata,
@@ -41,6 +33,16 @@ like_table = sqlalchemy.Table(
     ),
     sqlalchemy.Column("user_id", sqlalchemy.ForeignKey("users.id"), nullable=False),
 )
+
+user_table = sqlalchemy.Table(
+    "users",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("email", sqlalchemy.String, unique=True),
+    sqlalchemy.Column("password", sqlalchemy.String),
+    sqlalchemy.Column("confirmed", sqlalchemy.Boolean, default=False),
+)
+
 
 if config.DATABASE_URL is None:
     raise ValueError("DATABASE_URL is not set")

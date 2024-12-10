@@ -54,7 +54,7 @@ async def created_comment(
 
 @pytest.mark.anyio
 async def test_create_post(
-    async_client: AsyncClient, registered_user: dict, logged_in_token: str
+    async_client: AsyncClient, confirmed_user: dict, logged_in_token: str
 ):
     print("testin create post")
     body = "Test Post"
@@ -68,7 +68,7 @@ async def test_create_post(
     assert {
         "id": 1,
         "body": body,
-        "user_id": registered_user["id"],
+        "user_id": confirmed_user["id"],
     }.items() <= response.json().items()
 
 
@@ -76,7 +76,7 @@ async def test_create_post(
 async def test_create_comment(
     async_client: AsyncClient,
     created_post: dict,
-    registered_user: dict,
+    confirmed_user: dict,
     logged_in_token: str,
 ):
     body = "Test Comment"
@@ -94,7 +94,7 @@ async def test_create_comment(
         "id": 1,
         "body": body,
         "post_id": created_post["id"],
-        "user_id": registered_user["id"],
+        "user_id": confirmed_user["id"],
     }.items() <= response.json().items()
 
 
@@ -130,7 +130,7 @@ async def test_create_post_without_token(async_client: AsyncClient):
 async def test_create_post_with_expired_token(
     async_client: AsyncClient, registered_user: dict, mocker
 ):
-    mocker.patch("storeapi.security.access_token_minutes", return_value=-1)
+    mocker.patch("storeapi.security.access_token_expire_minutes", return_value=-1)
     token = create_access_token(registered_user["email"])
     response = await async_client.post(
         "/post",

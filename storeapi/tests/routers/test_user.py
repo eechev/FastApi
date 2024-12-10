@@ -1,5 +1,5 @@
 import pytest
-from fastapi import status
+from fastapi import Request, status
 from httpx import AsyncClient
 
 
@@ -28,6 +28,33 @@ async def test_register_user_with_existing_email(
 
 
 @pytest.mark.anyio
+async def test_confim_user(async_client: AsyncClient, mocker):
+    spy = mocker.spy(Request, "url_for")
+    await register_user(async_client, "test@example.com", "password1234")
+    confirmation_url = str(spy.spy_return)
+    response = await async_client.get(confirmation_url)
+    assert response.status_code == status.HTTP_200_OK
+    assert "User successfully confirmed" in response.json()["detail"]
+
+
+@pytest.mark.anyio
+async def test_confirm_user_with_invalid_token(async_client: AsyncClient):
+    response = await async_client.get("/confirm/invalid_token")
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+@pytest.mark.anyio
+async def test_confim_user_with_expired_token(async_client: AsyncClient, mocker):
+    mocker.patch("storeapi.security.confirmation_token_expire_minutes", return_value=-1)
+    spy = mocker.spy(Request, "url_for")
+    await register_user(async_client, "test@example.com", "password1234")
+    confirmation_url = str(spy.spy_return)
+    response = await async_client.get(confirmation_url)
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert "Token has expired" in response.json()["detail"]
+
+
+@pytest.mark.anyio
 async def test_login_user_not_exits(async_client: AsyncClient):
     response = await async_client.post(
         "/token",
@@ -40,7 +67,21 @@ async def test_login_user_not_exits(async_client: AsyncClient):
 
 
 @pytest.mark.anyio
-async def test_login_user(async_client: AsyncClient, registered_user: dict):
+async def test_login_user(async_client: AsyncClient, confirmed_user: dict):
+    response = await async_client.post(
+        "/token",
+        data={
+            "username": confirmed_user["email"],
+            "password": confirmed_user["password"],
+        },
+    )
+    assert response.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.anyio
+async def test_login_user_not_confirmed(
+    async_client: AsyncClient, registered_user: dict
+):
     response = await async_client.post(
         "/token",
         data={
@@ -48,4 +89,5 @@ async def test_login_user(async_client: AsyncClient, registered_user: dict):
             "password": registered_user["password"],
         },
     )
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert "User has not confirmed email" in response.json()["detail"]

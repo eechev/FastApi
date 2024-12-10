@@ -4,6 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 
+from storeapi import tasks
 from storeapi.database import database, user_table
 from storeapi.models.user import UserIn
 from storeapi.security import (
@@ -33,12 +34,15 @@ async def register(user: UserIn, request: Request):
     query = user_table.insert().values(email=user.email, password=hashed_password)
     logger.debug(query)
     await database.execute(query)
-    return {
-        "detail": "User successfully created. Please check your email to confirm.",
-        "confirmation_url": request.url_for(
-            "confirm_email", token=create_confirmation_token(user.email)
+    await tasks.send_user_registration_email(
+        user.email,
+        confirmation_url=str(
+            request.url_for(
+                "confirm_email", token=create_confirmation_token(user.email)
+            )
         ),
-    }
+    )
+    return {"detail": "User successfully created. Please check your email to confirm."}
 
 
 @router.post("/token")
